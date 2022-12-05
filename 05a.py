@@ -18,14 +18,10 @@ with open("05-i.txt", "r") as fh:
 
 num_crates = int(crates[-1].split()[-1])
 stacks = [ [] for _ in range(num_crates) ]
-print("CRATES")
-print(crates)
-print("NUMBER OF CRATES")
-print(num_crates)
-print(stacks)
+
+crates = [c.strip("\n") for c in crates]
 
 for row in crates[:-1]:
-    print(row)
     col = 1
     while col < len(row):
         char = row[col]
@@ -34,5 +30,24 @@ for row in crates[:-1]:
             stacks[stack_pos].insert(0, char)
         col += 4
 
+print("BEFORE MOVING")
 for stack in stacks:
     print(stack)
+
+for ins in instructions:
+    ins_s = ins.split()
+    move_num, from_stack, to_stack = int(ins_s[1]), int(ins_s[3])-1, int(ins_s[5])-1
+    for _ in range(move_num):
+        c = stacks[from_stack].pop()
+        stacks[to_stack].append(c)
+
+print()
+print("AFTER MOVING")
+answer = ""
+for stack in stacks:
+    answer += stack[-1]
+    print(stack)
+
+print()
+print("ANSWER")
+print(answer)
