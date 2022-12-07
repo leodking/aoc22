@@ -1,3 +1,5 @@
+import os
+
 class File():
     def __init__(self, name, size):
         self.name = name
@@ -21,20 +23,33 @@ class Dir():
         for c in self.contents:
             print(c)
 
-with open("07-i.txt", "r") as fh:
-    lines = fh.read().splitlines()
+# with open("07-i.txt", "r") as fh:
+#     lines = fh.read().splitlines()
 
-root = Dir("/")
-root.add_dir(Dir("a"))
-root.add_dir(Dir("b"))
+# Create the files described
+if not os.path.exists("rootdir"):
+    with open("07-i.txt", "r") as fh:
+        lines = fh.read().splitlines()
+    for line in lines:
+        if line[0] == "$":
+            args = line.split()[1:]
+            print(args)
+            if args[0] == "cd":
+                cwd = args[1]
+                if cwd == "/":
+                    os.mkdir("rootdir")
 
-print(root.list())
+# root = Dir("/")
+# root.add_dir(Dir("a"))
+# root.add_dir(Dir("b"))
 
-for i in range(1, 10):
-    print(lines[i])
-    if lines[i][0] == "$":  # Command - do something
-        args = lines[i].split()[1:]
-        print(args)
-        if args[0] == "cd": # Create new dir
-            pass
+# print(root.list())
+
+# for i in range(1, 10):
+#     print(lines[i])
+#     if lines[i][0] == "$":  # Command - do something
+#         args = lines[i].split()[1:]
+#         print(args)
+#         if args[0] == "cd": # Create new dir
+#             pass
 # root = Dir("/")
