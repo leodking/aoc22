@@ -38,12 +38,20 @@ def get_size(dirpath):
         elif fd.is_file():
             files.append(fd)
 
+    total_size = 0
+
     for d in dirs:
-        get_size(d)
-        print(d)
+        total_size += get_size(d)
+        # print(d)
 
     for f in files:
-        print(f)
+        with open(f.path, "r") as fh:
+            size = int(fh.read())
+        print("File:", f.path, "Size:", size)
+        total_size += size
+
+    print("Total size:", total_size)
+    return total_size
 
 def main():
     # Create the files described the first time
