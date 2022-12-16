@@ -1,4 +1,4 @@
-# import numpy as np
+import numpy as np
 
 # grid = np.zeros((100,100), dtype="S1")
 # grid[0,50] = 'H'
@@ -96,68 +96,89 @@ def get_grid_size(input):
     
     return width, height
 
+def get_tpos(hpos, tpos, dir):
+    diff = [hpos[0]-tpos[0], hpos[1]-tpos[1]]
+    print(diff)
+    return tpos
+
+
 def main():
-    with open("09-i.txt", "r") as fh:
+    with open("09-ex.txt", "r") as fh:
         lines = fh.read().splitlines()
-    width, height = get_grid_size(lines)
+    # width, height = get_grid_size(lines)
+
+    width = 550
+    height = 550
 
     spos = [(height // 2) - 1, (width // 2) - 1]    # Start position
     hpos = [spos[0], spos[1]]                   # Head position
     tpos = [spos[0], spos[1]]                   # Tail position
 
-    # grid = np.zeros((height, width), dtype='S1')
-    # grid[spos[0], spos[1]] = 'H'
-    # print(width, height, spos)
+    grid = np.zeros((height, width), dtype='S1')
+    grid[spos[0], spos[1]] = 'H'
+    print(width, height, spos)
 
-    # first_hpos = hpos.copy()
+    first_hpos = hpos.copy()
 
-    # # Parse instructions, move head and tail
-    # for line in lines:
-    #     dir, steps = line.split()
-    #     steps = int(steps)
-    #     if dir == "L":
-    #         for _ in range(steps):
-    #             if hpos[1] - 1 >= 0:
-    #                 print("hpos before:", hpos, end=" -- ")
-    #                 hpos[1] -= 1
-    #                 print("hpos after:", hpos, "dir --", dir, "steps --", steps)
-    #             else:
-    #                 print(hpos, steps)
-    #                 raise RuntimeError("We've calculated the width wrong here...")
-    #     elif dir == "R":
-    #         for _ in range(steps):
-    #             if hpos[1] + 1 < width:
-    #                 print("hpos before:", hpos, end=" -- ")
-    #                 hpos[1] += 1
-    #                 print("hpos after:", hpos, "dir --", dir, "steps --", steps)
-    #             else:
-    #                 print(hpos, steps)
-    #                 raise RuntimeError("We've calculated the width wrong here...")
-    #     elif dir == "U":
-    #         for _ in range(steps):
-    #             if hpos[0] - 1 >= 0:
-    #                 print("hpos before:", hpos, end=" -- ")
-    #                 hpos[0] -= 1
-    #                 print("hpos after:", hpos, "dir --", dir, "steps --", steps)
-    #             else:
-    #                 print(hpos, steps)
-    #                 raise RuntimeError("We've calculated the height wrong here...")
-    #     elif dir == "D":
-    #         for _ in range(steps):
-    #             if hpos[0] + 1 < height:
-    #                 print("hpos before:", hpos, end=" -- ")
-    #                 hpos[0] += 1
-    #                 print("hpos after:", hpos, "dir --", dir, "steps --", steps)
-    #             else:
-    #                 print(hpos, steps)
-    #                 raise RuntimeError("We've calculated the width wrong here...")
+    # Parse instructions, move head and tail
+    for line in lines:
+        dir, steps = line.split()
+        steps = int(steps)
+        if dir == "L":
+            for _ in range(steps):
+                if hpos[1] - 1 >= 0:
+                    # print("hpos before:", hpos, end=" -- ")
+                    hpos[1] -= 1
+                    grid[tpos[0], tpos[1]] = "#"
+                    tpos = get_tpos(hpos, tpos, dir)
+                    grid[tpos[0], tpos[1]] = "T"
+                    # print("hpos after:", hpos, "dir --", dir, "steps --", steps)
+                else:
+                    print(hpos, steps)
+                    raise RuntimeError("We've calculated the width wrong here...")
+        elif dir == "R":
+            for _ in range(steps):
+                if hpos[1] + 1 < width:
+                    # print("hpos before:", hpos, end=" -- ")
+                    hpos[1] += 1
+                    grid[tpos[0], tpos[1]] = "#"
+                    tpos = get_tpos(hpos, tpos, dir)
+                    grid[tpos[0], tpos[1]] = "T"
+                    # print("hpos after:", hpos, "dir --", dir, "steps --", steps)
+                else:
+                    print(hpos, steps)
+                    raise RuntimeError("We've calculated the width wrong here...")
+        elif dir == "U":
+            for _ in range(steps):
+                if hpos[0] - 1 >= 0:
+                    # print("hpos before:", hpos, end=" -- ")
+                    hpos[0] -= 1
+                    grid[tpos[0], tpos[1]] = "#"
+                    tpos = get_tpos(hpos, tpos, dir)
+                    grid[tpos[0], tpos[1]] = "T"
+                    # print("hpos after:", hpos, "dir --", dir, "steps --", steps)
+                else:
+                    print(hpos, steps)
+                    raise RuntimeError("We've calculated the height wrong here...")
+        elif dir == "D":
+            for _ in range(steps):
+                if hpos[0] + 1 < height:
+                    # print("hpos before:", hpos, end=" -- ")
+                    hpos[0] += 1
+                    grid[tpos[0], tpos[1]] = "#"
+                    tpos = get_tpos(hpos, tpos, dir)
+                    grid[tpos[0], tpos[1]] = "T"
+                    # print("hpos after:", hpos, "dir --", dir, "steps --", steps)
+                else:
+                    print(hpos, steps)
+                    raise RuntimeError("We've calculated the width wrong here...")
 
-    # last_hpos = hpos.copy()
+    last_hpos = hpos.copy()
 
-    # print("Head position:", hpos)
+    print("Head position:", hpos)
 
-    # print("first:", first_hpos)
-    # print("last:", last_hpos)
+    print("first:", first_hpos)
+    print("last:", last_hpos)
 
     # with np.printoptions(threshold=np.inf):
     #     print(grid)
