@@ -1,0 +1,6 @@
+$ cd /
+$ ls
+dir foo
+$ cd foo
+ls
+800 foo
